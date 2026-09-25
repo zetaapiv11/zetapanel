@@ -26,7 +26,7 @@ export const createServerSchema = z.object({
   // 'r2_zip': deploy from a project uploaded via the File Manager instead —
   // repository is not required; see renderServices.buildR2BridgeServicePayload.
   deploymentSource: z.enum(['git', 'r2_zip']).default('git'),
-  repository: z.string().url().optional(),
+  repository: z.string().min(1).optional(),
   branch: z.string().min(1).default('main'),
   buildCommand: z.string().max(500).optional(),
   startCommand: z.string().max(500).optional(),
