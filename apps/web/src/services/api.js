@@ -1,6 +1,6 @@
 import { useAuthStore } from '../stores/authStore.js';
 
-const BASE = '/api';
+const BASE = (import.meta.env.VITE_API_URL || '') + '/api';
 
 async function request(path, { method = 'GET', body, query, retry = true } = {}) {
   const url = new URL(BASE + path, window.location.origin);
