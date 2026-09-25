@@ -24,14 +24,16 @@ async function request(path, { method = 'GET', body, query, retry = true } = {})
   }
 
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const err = new Error(data?.error?.message || `Request failed (${res.status})`);
+    if (!res.ok) {
+    let msg = data?.error?.message || `Request failed (${res.status})`;
+    if (data?.error?.details?.length) {
+      msg += ': ' + data.error.details.map((d) => `${d.path}: ${d.message}`).join(', ');
+    }
+    const err = new Error(msg);
     err.status = res.status;
     err.details = data?.error;
     throw err;
   }
-  return data;
-}
 
 export const api = {
   get: (path, query) => request(path, { query }),
